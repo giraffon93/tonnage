@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tonnage</title>
 
+<link rel="manifest" href="manifest.json">
+
 <style>
 body{
   margin:0;
@@ -27,10 +29,17 @@ input{
   border:none;
 }
 
+#area{
+  text-align:center;
+  font-size:28px;
+  margin-top:10px;
+  opacity:0.8;
+}
+
 #t{
   font-size:70px;
   text-align:center;
-  margin-top:25px;
+  margin-top:20px;
   color:#00ff99;
   font-weight:bold;
 }
@@ -52,6 +61,7 @@ input{
 <input id="e" type="number" inputmode="numeric" placeholder="Épaisseur (cm)">
 <input id="q" type="number" inputmode="numeric" value="1" placeholder="Quantité">
 
+<div id="area">0 m²</div>
 <div id="t">0.00 t</div>
 <div id="kg">0 kg</div>
 
@@ -63,8 +73,12 @@ function calc(){
   const e = Number(document.getElementById('e').value) || 0;
   const q = Number(document.getElementById('q').value) || 1;
 
-  const tonnage = L * l * (e/100) * 2.7 * q;
+  const surface = L * l;
+  const tonnage = L * l * (e / 100) * 2.7 * q;
   const kg = tonnage * 1000;
+
+  document.getElementById('area').textContent =
+    surface.toFixed(2) + " m²";
 
   document.getElementById('t').textContent =
     tonnage.toFixed(2) + " t";
