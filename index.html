@@ -73,7 +73,7 @@ function calc(){
   const e = Number(document.getElementById('e').value) || 0;
   const q = Number(document.getElementById('q').value) || 1;
 
-  // surface m²
+  // surface
   const surface = L * l;
 
   // tonnage
@@ -93,9 +93,13 @@ function calc(){
     Math.round(kg).toLocaleString() + " kg";
 }
 
+// déclenche sur saisie
 document.querySelectorAll("input").forEach(i=>{
   i.addEventListener("input", calc);
 });
+
+// IMPORTANT : calcul immédiat au chargement
+window.addEventListener("load", calc);
 </script>
 
 </body>
