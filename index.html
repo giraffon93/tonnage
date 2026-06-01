@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tonnage</title>
 
+<!-- VERSION APP -->
+<meta name="app-version" content="1.0.0">
+
 <style>
 body{
   margin:0;
@@ -31,7 +34,7 @@ input{
 #area{
   text-align:center;
   font-size:26px;
-  opacity:0.8;
+  opacity:0.85;
   margin-top:10px;
 }
 
@@ -87,11 +90,30 @@ function calc(){
     Math.round(kg).toLocaleString() + " kg";
 }
 
+// auto calcul
 document.querySelectorAll("input").forEach(i=>{
   i.addEventListener("input", calc);
 });
-
 window.addEventListener("load", calc);
+
+
+/* 🔥 AUTO UPDATE POUR ICÔNE iPhone */
+(function () {
+
+  const CURRENT_VERSION = "1.0.0";
+  const savedVersion = localStorage.getItem("app_version");
+
+  if (!savedVersion) {
+    localStorage.setItem("app_version", CURRENT_VERSION);
+    return;
+  }
+
+  if (savedVersion !== CURRENT_VERSION) {
+    localStorage.setItem("app_version", CURRENT_VERSION);
+    location.reload();
+  }
+
+})();
 </script>
 
 </body>
