@@ -3,45 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calcul Tonnage</title>
 
-<meta name="app-version" content="1.0.4">
+<title>Tonnage m³</title>
+<meta name="app-version" content="1.0.0">
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Tonnage m³">
+<link rel="apple-touch-icon" href="icon.png">
 
 <style>
-body{
+html, body{
   margin:0;
+  padding:0;
+  overflow-x:hidden;
   font-family: Arial;
   background:#000;
   color:#fff;
+}
+
+body{
   padding:10px;
 }
 
 h1{
   text-align:center;
-  margin:8px 0;
-  font-size:20px;
+  margin:10px 0;
+  font-size:22px;
+}
+
+label{
+  font-size:16px;
+  opacity:0.8;
 }
 
 input{
   width:100%;
   padding:12px;
-  margin:6px 0;
-  font-size:18px;
+  margin:6px 0 14px 0;
+  font-size:20px;
   border-radius:8px;
   border:none;
-}
-
-#area{
-  text-align:center;
-  font-size:20px;
-  opacity:0.8;
-  margin-top:8px;
+  outline:none;
 }
 
 #t{
-  font-size:52px;
+  font-size:48px;
   text-align:center;
-  margin-top:12px;
+  margin-top:20px;
   color:#00ff99;
   font-weight:bold;
 }
@@ -52,51 +63,49 @@ input{
   opacity:0.7;
   margin-top:4px;
 }
+
+#version{
+  text-align:center;
+  font-size:12px;
+  opacity:0.4;
+  margin-top:20px;
+}
 </style>
 </head>
 
 <body>
 
-<h1>CALCUL TONNAGE</h1>
+<h1>TONNAGE m³</h1>
 
-<input id="L" type="number" inputmode="decimal" placeholder="Longueur (m)">
-<input id="l" type="number" inputmode="decimal" placeholder="Largeur (m)">
-<input id="e" type="number" inputmode="numeric" placeholder="Épaisseur (cm)">
-<input id="q" type="number" inputmode="numeric" value="1" placeholder="Quantité">
+<label>Volume (m³)</label>
+<input id="v" type="text" inputmode="decimal" placeholder="Ex : 1.25">
 
-<div id="area">0 m²</div>
 <div id="t">0.00 t</div>
 <div id="kg">0 kg</div>
 
+<div id="version"></div>
+
 <script>
 function calc(){
+  const v = parseFloat(document.getElementById('v').value.replace(",", ".")) || 0;
 
-  const L = Number(document.getElementById('L').value) || 0;
-  const l = Number(document.getElementById('l').value) || 0;
-  const e = Number(document.getElementById('e').value) || 0;
-  const q = Number(document.getElementById('q').value) || 1;
-
-  const surface = L * l;
-  const tonnage = L * l * (e / 100) * 2.7 * q;
+  const tonnage = v * 2.7;
   const kg = tonnage * 1000;
 
-  document.getElementById('area').textContent =
-    surface.toFixed(2) + " m²";
-
-  document.getElementById('t').textContent =
-    tonnage.toFixed(2) + " t";
-
-  document.getElementById('kg').textContent =
-    Math.round(kg).toLocaleString() + " kg";
+  document.getElementById('t').textContent = tonnage.toFixed(2) + " t";
+  document.getElementById('kg').textContent = Math.round(kg).toLocaleString() + " kg";
 }
 
-// calcul live
-document.querySelectorAll("input").forEach(i=>{
-  i.addEventListener("input", calc);
-});
+document.getElementById("v").addEventListener("input", calc);
 
-// calcul au chargement
 window.addEventListener("load", calc);
+
+document.getElementById("version").textContent =
+  "Version " + document.querySelector('meta[name=\"app-version\"]').content;
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
 </script>
 
 </body>
