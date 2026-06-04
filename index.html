@@ -103,15 +103,6 @@ footer{
 </footer>
 
 <script>
-// Version globale
-const APP_VERSION = "1.0.2";
-
-// Affichage version
-window.addEventListener("DOMContentLoaded", () => {
-  const v = document.getElementById("app-version");
-  if (v) v.textContent = APP_VERSION;
-});
-
 // Calcul tonnage
 function calc(){
   const v = parseFloat(document.getElementById('v').value.replace(",", ".")) || 0;
@@ -126,30 +117,14 @@ function calc(){
 document.getElementById("v").addEventListener("input", calc);
 window.addEventListener("load", calc);
 
-// 🔄 Mise à jour PWA
-function updateApp(){
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistration().then(reg => {
-      if (reg) {
-        reg.update();
-        alert("Mise à jour demandée.\nRouvrez l’app dans 2 secondes.");
-      }
-    });
-  }
-}
-
-// Enregistrement SW
+// Enregistrement du service worker
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js");
 }
-
-// Reload auto après update
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.addEventListener("controllerchange", () => {
-    location.reload();
-  });
-}
 </script>
+
+<!-- Ton fichier global -->
+<script src="app.js"></script>
 
 </body>
 </html>
