@@ -85,15 +85,7 @@ footer{
 </footer>
 
 <script>
-// Version globale (même que dans index.html)
-const APP_VERSION = "1.0.2";
-
-// Affichage version
-window.addEventListener("DOMContentLoaded", () => {
-  const v = document.getElementById("app-version");
-  if (v) v.textContent = APP_VERSION;
-});
-
+// Ajouter une ligne
 function addRow(){
   const div = document.createElement("div");
   div.className = "row";
@@ -106,6 +98,7 @@ function addRow(){
   document.getElementById("list").appendChild(div);
 }
 
+// Calcul total
 function calc(){
   let total = 0;
 
@@ -117,25 +110,14 @@ function calc(){
   document.getElementById("total").textContent = total.toFixed(2) + " t";
 }
 
-// Mise à jour
-function updateApp(){
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistration().then(reg => {
-      if (reg) {
-        reg.update();
-        alert("Mise à jour demandée.\nRouvrez l’app dans 2 secondes.");
-      }
-    });
-  }
-}
-
-// Auto‑reload après update
+// Enregistrement du service worker
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.addEventListener("controllerchange", () => {
-    location.reload();
-  });
+  navigator.serviceWorker.register("sw.js");
 }
 </script>
+
+<!-- Ton fichier global -->
+<script src="app.js"></script>
 
 </body>
 </html>
