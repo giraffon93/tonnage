@@ -1,8 +1,11 @@
-const CACHE_NAME = "tonnage-m3-v3";
+const CACHE_NAME = "tonnage-m3-v4";
+
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
+  "./simple.html",
   "./multi.html",
+  "./tranches.html",
   "./manifest.json",
   "./icon.png"
 ];
