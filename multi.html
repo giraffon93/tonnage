@@ -49,6 +49,13 @@ button{
   font-weight:bold;
 }
 
+#version{
+  text-align:center;
+  font-size:12px;
+  opacity:0.4;
+  margin-top:10px;
+}
+
 a{
   color:#00ff99;
   text-decoration:none;
@@ -69,7 +76,10 @@ a{
 
 <div id="total">0.00 t</div>
 
+<div id="version"></div>
+
 <a href="index.html">⬅ Retour</a>
+<a href="#" onclick="updateApp()">🔄 Mettre à jour l’application</a>
 
 <script>
 function addRow(){
@@ -93,6 +103,29 @@ function calc(){
   });
 
   document.getElementById("total").textContent = total.toFixed(2) + " t";
+}
+
+// Affichage version
+document.getElementById("version").textContent =
+  "Version " + document.querySelector('meta[name="app-version"]').content;
+
+// Mise à jour
+function updateApp(){
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistration().then(reg => {
+      if (reg) {
+        reg.update();
+        alert("Mise à jour demandée.\nRouvrez l’app dans 2 secondes.");
+      }
+    });
+  }
+}
+
+// Auto‑reload
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    location.reload();
+  });
 }
 </script>
 
