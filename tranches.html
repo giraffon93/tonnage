@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Calcul tranches</title>
+
+<style>
+body{
+  background:#000;
+  color:#fff;
+  font-family:Arial;
+  padding:20px;
+}
+
+h1{
+  text-align:center;
+  font-size:26px;
+}
+
+label{
+  font-size:16px;
+  opacity:0.8;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin:6px 0 14px 0;
+  font-size:20px;
+  border-radius:8px;
+  border:none;
+  outline:none;
+}
+
+#area, #m3{
+  text-align:center;
+  font-size:18px;
+  opacity:0.8;
+  margin-top:10px;
+}
+
+#t{
+  font-size:48px;
+  text-align:center;
+  margin-top:12px;
+  color:#00ff99;
+  font-weight:bold;
+}
+
+#kg{
+  text-align:center;
+  font-size:22px;
+  opacity:0.7;
+  margin-top:4px;
+}
+
+a{
+  color:#00ff99;
+  text-decoration:none;
+  display:block;
+  text-align:center;
+  margin-top:20px;
+  font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Calcul tranches</h1>
+
+<label>Longueur (cm)</label>
+<input id="L" type="text" inputmode="decimal" placeholder="Ex : 250">
+
+<label>Largeur (cm)</label>
+<input id="l" type="text" inputmode="decimal" placeholder="Ex : 120">
+
+<label>Épaisseur (cm)</label>
+<input id="e" type="text" inputmode="decimal" placeholder="Ex : 12">
+
+<label>Nombre de tranches</label>
+<input id="q" type="text" inputmode="decimal" value="1">
+
+<div id="area">0 m²</div>
+<div id="m3">0 m³</div>
+<div id="t">0.00 t</div>
+<div id="kg">0 kg</div>
+
+<a href="index.html">⬅ Retour</a>
+
+<script>
+function calc(){
+  const L = (parseFloat(document.getElementById('L').value.replace(",", ".")) || 0) / 100;
+  const l = (parseFloat(document.getElementById('l').value.replace(",", ".")) || 0) / 100;
+  const e = (parseFloat(document.getElementById('e').value.replace(",", ".")) || 0) / 100;
+  const q = parseFloat(document.getElementById('q').value) || 1;
+
+  const surface_unitaire = L * l;
+  const surface_totale = surface_unitaire * q;
+
+  const volume_unitaire = L * l * e;
+  const volume_total = volume_unitaire * q;
+
+  const tonnage = volume_total * 2.7;
+  const kg = tonnage * 1000;
+
+  document.getElementById('area').textContent = surface_totale.toFixed(2) + " m²";
+  document.getElementById('m3').textContent = volume_total.toFixed(3) + " m³";
+  document.getElementById('t').textContent = tonnage.toFixed(2) + " t";
+  document.getElementById('kg').textContent = Math.round(kg).toLocaleString() + " kg";
+}
+
+document.querySelectorAll("input").forEach(el=>{
+  el.addEventListener("input", calc);
+});
+
+window.addEventListener("load", calc);
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
+</script>
+
+<script src="app.js"></script>
+
+</body>
+</html>
