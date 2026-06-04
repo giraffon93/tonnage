@@ -55,4 +55,42 @@ a{
   display:block;
   text-align:center;
   margin-top:20px;
-  font
+  font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>M³ simple</h1>
+
+<label>Volume (m³)</label>
+<input id="v" type="text" inputmode="decimal" placeholder="Ex : 1.25">
+
+<div id="t">0.00 t</div>
+<div id="kg">0 kg</div>
+
+<a href="index.html">⬅ Retour</a>
+
+<script>
+function calc(){
+  const v = parseFloat(document.getElementById('v').value.replace(",", ".")) || 0;
+  const tonnage = v * 2.7;
+  const kg = tonnage * 1000;
+
+  document.getElementById('t').textContent = tonnage.toFixed(2) + " t";
+  document.getElementById('kg').textContent = Math.round(kg).toLocaleString() + " kg";
+}
+
+document.getElementById("v").addEventListener("input", calc);
+window.addEventListener("load", calc);
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
+</script>
+
+<script src="app.js"></script>
+
+</body>
+</html>
