@@ -1,4 +1,4 @@
-const CACHE_NAME = "tonnage-m3-v2";
+const CACHE_NAME = "tonnage-m3-v3";
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
@@ -7,12 +7,13 @@ const FILES_TO_CACHE = [
   "./icon.png"
 ];
 
-// Installation : cache les fichiers
+// Installation : cache + activation immédiate + prise de contrôle
 self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE))
   );
-  self.skipWaiting(); // active immédiatement la nouvelle version
+  self.skipWaiting();     // active immédiatement la nouvelle version
+  self.clients.claim();   // prend le contrôle direct des pages
 });
 
 // Activation : supprime les anciens caches
@@ -24,7 +25,7 @@ self.addEventListener("activate", event => {
       )
     )
   );
-  self.clients.claim(); // prend le contrôle des pages ouvertes
+  self.clients.claim(); // contrôle total
 });
 
 // Fetch : cache + mise à jour réseau
@@ -45,7 +46,7 @@ self.addEventListener("fetch", event => {
   );
 });
 
-// 🔄 Auto‑update : recharge les pages quand une nouvelle version est prête
+// Auto‑update : permet à app.js de forcer skipWaiting()
 self.addEventListener("message", event => {
   if (event.data === "skipWaiting") {
     self.skipWaiting();
