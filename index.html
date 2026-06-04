@@ -6,7 +6,6 @@
 
 <title>Tonnage m³</title>
 
-<!-- PWA -->
 <link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -14,69 +13,36 @@
 <link rel="apple-touch-icon" href="icon.png">
 
 <style>
-html, body{
-  margin:0;
-  padding:0;
-  overflow-x:hidden;
-  font-family: Arial;
+body{
   background:#000;
   color:#fff;
-}
-
-body{
-  padding:10px;
+  font-family:Arial;
+  padding:20px;
+  text-align:center;
 }
 
 h1{
-  text-align:center;
-  margin:10px 0;
-  font-size:22px;
+  margin-top:10px;
+  font-size:26px;
 }
 
-label{
-  font-size:16px;
-  opacity:0.8;
-}
-
-input{
-  width:100%;
-  padding:12px;
-  margin:6px 0 14px 0;
-  font-size:20px;
-  border-radius:8px;
-  border:none;
-  outline:none;
-}
-
-#t{
-  font-size:48px;
-  text-align:center;
-  margin-top:20px;
-  color:#00ff99;
-  font-weight:bold;
-}
-
-#kg{
-  text-align:center;
-  font-size:22px;
-  opacity:0.7;
-  margin-top:4px;
-}
-
-a{
-  color:#00ff99;
-  text-decoration:none;
+.button{
   display:block;
-  text-align:center;
-  margin-top:20px;
-  font-size:18px;
+  background:#00ff99;
+  color:#000;
+  padding:18px;
+  margin:20px 0;
+  border-radius:10px;
+  font-size:22px;
+  font-weight:bold;
+  text-decoration:none;
 }
 
 footer{
   text-align:center;
   opacity:0.6;
   font-size:12px;
-  margin-top:30px;
+  margin-top:40px;
 }
 </style>
 </head>
@@ -85,45 +51,15 @@ footer{
 
 <h1>TONNAGE m³</h1>
 
-<label>Volume (m³)</label>
-<input id="v" type="text" inputmode="decimal" placeholder="Ex : 1.25">
+<a class="button" href="simple.html">M³ simple</a>
+<a class="button" href="multi.html">M³ multi</a>
 
-<div id="t">0.00 t</div>
-<div id="kg">0 kg</div>
+<a class="button" href="#" onclick="updateApp()">🔄 Mettre à jour l’application</a>
 
-<!-- Bouton vers la page multi -->
-<a href="multi.html">➕ Mode multi m³</a>
-
-<!-- Bouton mise à jour -->
-<a href="#" onclick="updateApp()">🔄 Mettre à jour l’application</a>
-
-<!-- Footer version -->
 <footer>
   Version : <span id="app-version"></span>
 </footer>
 
-<script>
-// Calcul tonnage
-function calc(){
-  const v = parseFloat(document.getElementById('v').value.replace(",", ".")) || 0;
-
-  const tonnage = v * 2.7;
-  const kg = tonnage * 1000;
-
-  document.getElementById('t').textContent = tonnage.toFixed(2) + " t";
-  document.getElementById('kg').textContent = Math.round(kg).toLocaleString() + " kg";
-}
-
-document.getElementById("v").addEventListener("input", calc);
-window.addEventListener("load", calc);
-
-// Enregistrement du service worker
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js");
-}
-</script>
-
-<!-- Ton fichier global -->
 <script src="app.js"></script>
 
 </body>
