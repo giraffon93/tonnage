@@ -45,7 +45,6 @@ input{
   font-size:48px;
   text-align:center;
   margin-top:12px;
-  color:#00ff99;
   font-weight:bold;
 }
 
@@ -85,12 +84,29 @@ a{
 
 <div id="area">0 m²</div>
 <div id="m3">0 m³</div>
-<div id="t">0.00 t</div>
+<div id="t">0.000 T</div>
 <div id="kg">0 kg</div>
 
 <a href="index.html">⬅ Retour</a>
 
 <script>
+function applyColor(t){
+  const el = document.getElementById("t");
+
+  if (t <= 4.800){
+      el.style.color = "#00ff66"; // vert
+  }
+  else if (t <= 5.000){
+      el.style.color = "#c7a600"; // jaune foncé
+  }
+  else if (t <= 5.500){
+      el.style.color = "#ff7b00"; // orange
+  }
+  else {
+      el.style.color = "#ff0000"; // rouge
+  }
+}
+
 function calc(){
   const L = (parseFloat(document.getElementById('L').value.replace(",", ".")) || 0) / 100;
   const l = (parseFloat(document.getElementById('l').value.replace(",", ".")) || 0) / 100;
@@ -110,6 +126,8 @@ function calc(){
   document.getElementById('m3').textContent = volume_total.toFixed(3) + " m³";
   document.getElementById('t').textContent = tonnage.toFixed(3) + " T";
   document.getElementById('kg').textContent = Math.round(kg).toLocaleString() + " kg";
+
+  applyColor(tonnage);
 }
 
 document.querySelectorAll("input").forEach(el=>{
