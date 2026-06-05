@@ -78,7 +78,7 @@ function calc(){
   const tonnage = v * 2.7;
   const kg = tonnage * 1000;
 
-  document.getElementById('t').textContent = tonnage.toFixed(2) + " t";
+  document.getElementById('t').textContent = tonnage.toFixed(3) + " T";
   document.getElementById('kg').textContent = Math.round(kg).toLocaleString() + " kg";
 }
 
