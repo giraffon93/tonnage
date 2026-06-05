@@ -21,6 +21,7 @@ h1{
   display:flex;
   gap:10px;
   margin-bottom:10px;
+  align-items:center;
 }
 
 input{
@@ -29,6 +30,14 @@ input{
   font-size:18px;
   border-radius:8px;
   border:none;
+}
+
+.lineWeight{
+  width:80px;
+  text-align:right;
+  color:#00ff99;
+  font-size:18px;
+  font-weight:bold;
 }
 
 button{
@@ -99,7 +108,7 @@ a{
   <button class="btn-clear" onclick="clearAll()">🗑 Effacer tout</button>
 </div>
 
-<div id="total">0.00 t</div>
+<div id="total">0.00 T</div>
 
 <a href="index.html">⬅ Retour</a>
 
@@ -111,6 +120,9 @@ function addRow(value = ""){
   div.innerHTML = `
     <input type="text" inputmode="decimal" placeholder="m³" value="${value}"
            oninput="calc(); saveData()">
+
+    <span class="lineWeight">0.00 T</span>
+
     <button onclick="removeRow(this)" style="background:#00ff99; color:#000;">X</button>
   `;
 
@@ -129,9 +141,16 @@ function removeRow(btn){
 function calc(){
   let total = 0;
 
-  document.querySelectorAll("#list input").forEach(input => {
+  document.querySelectorAll(".row").forEach(row => {
+    const input = row.querySelector("input");
+    const span = row.querySelector(".lineWeight");
+
     const v = parseFloat(input.value.replace(",", ".")) || 0;
-    total += v * 2.7;
+    const weight = v * 2.7;
+
+    span.textContent = weight.toFixed(2) + " T";
+
+    total += weight;
   });
 
   document.getElementById("total").textContent = total.toFixed(2) + " T";
