@@ -1,4 +1,4 @@
-const CACHE_NAME = "tonnage-m3-v5";
+const CACHE_NAME = "tonnage-m3-v6";
 
 const FILES_TO_CACHE = [
   "./",
