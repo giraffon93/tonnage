@@ -1,4 +1,5 @@
-const CACHE_NAME = "tonnage-m3-v2";
+// build 4
+const CACHE_NAME = "tonnage-m3-v4";
 
 self.addEventListener("install", event => {
   self.skipWaiting(); // active immédiatement la nouvelle version
@@ -8,7 +9,9 @@ self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
-        keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
+        keys
+          .filter(key => key !== CACHE_NAME)
+          .map(key => caches.delete(key))
       )
     )
   );
