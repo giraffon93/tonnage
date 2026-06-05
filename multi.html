@@ -33,7 +33,7 @@ input{
 }
 
 .lineWeight{
-  width:80px;
+  width:90px;
   text-align:right;
   color:#00ff99;
   font-size:18px;
@@ -108,7 +108,7 @@ a{
   <button class="btn-clear" onclick="clearAll()">🗑 Effacer tout</button>
 </div>
 
-<div id="total">0.00 T</div>
+<div id="total">0.000 T</div>
 
 <a href="index.html">⬅ Retour</a>
 
@@ -121,7 +121,7 @@ function addRow(value = ""){
     <input type="text" inputmode="decimal" placeholder="m³" value="${value}"
            oninput="calc(); saveData()">
 
-    <span class="lineWeight">0.00 T</span>
+    <span class="lineWeight">0.000 T</span>
 
     <button onclick="removeRow(this)" style="background:#00ff99; color:#000;">X</button>
   `;
@@ -153,7 +153,7 @@ function calc(){
     total += weight;
   });
 
-  document.getElementById("total").textContent = total.toFixed(2) + " T";
+  document.getElementById("total").textContent = total.toFixed(3) + " T";
 }
 
 function saveData(){
