@@ -148,7 +148,7 @@ function calc(){
     const v = parseFloat(input.value.replace(",", ".")) || 0;
     const weight = v * 2.7;
 
-    span.textContent = weight.toFixed(2) + " T";
+    span.textContent = weight.toFixed(3) + " T";
 
     total += weight;
   });
