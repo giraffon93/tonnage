@@ -32,8 +32,10 @@ input{
   border:none;
 }
 
+/* 🔥 Correction iPhone 16 : largeur flexible */
 .lineWeight{
-  width:70px;
+  flex:0 0 auto;
+  min-width:55px;
   text-align:right;
   color:#00ff99;
   font-size:18px;
@@ -176,7 +178,7 @@ function loadData(){
     saved.forEach(v => addRow(v));
   }
 
-  calc(); // force 3 décimales partout
+  calc();
 }
 
 function clearAll(){
