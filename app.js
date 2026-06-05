@@ -1,5 +1,5 @@
 // Version globale
-const APP_VERSION = "1.2.5";
+const APP_VERSION = "1.2.6";
 
 // Affichage version dans toutes les pages
 window.addEventListener("DOMContentLoaded", () => {
