@@ -1,4 +1,4 @@
-const CACHE_NAME = "tonnage-m3-v6";
+const CACHE_NAME = "tonnage-m3-v7";
 
 const FILES_TO_CACHE = [
   "./",
@@ -10,13 +10,9 @@ const FILES_TO_CACHE = [
   "./icon.png"
 ];
 
-// Installation : cache + activation immédiate + prise de contrôle
+// Installation : active immédiatement
 self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE))
-  );
-  self.skipWaiting();     // active immédiatement la nouvelle version
-  self.clients.claim();   // prend le contrôle direct des pages
+  self.skipWaiting();
 });
 
 // Activation : supprime les anciens caches
@@ -28,11 +24,22 @@ self.addEventListener("activate", event => {
       )
     )
   );
-  self.clients.claim(); // contrôle total
+  clients.claim();
 });
 
-// Fetch : cache + mise à jour réseau
+// Fetch : toujours réseau d'abord pour HTML/JS/CSS
 self.addEventListener("fetch", event => {
+  const url = event.request.url;
+
+  // Pour les pages et scripts → jamais de cache
+  if (url.endsWith(".html") || url.endsWith(".js") || url.endsWith(".css")) {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  // Pour les images et manifest → cache + mise à jour
   event.respondWith(
     caches.match(event.request).then(response => {
       const fetchPromise = fetch(event.request)
@@ -49,7 +56,7 @@ self.addEventListener("fetch", event => {
   );
 });
 
-// Auto‑update : permet à app.js de forcer skipWaiting()
+// Auto-update
 self.addEventListener("message", event => {
   if (event.data === "skipWaiting") {
     self.skipWaiting();
