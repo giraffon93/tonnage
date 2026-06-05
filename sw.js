@@ -27,19 +27,23 @@ self.addEventListener("activate", event => {
   clients.claim();
 });
 
-// Fetch : toujours réseau d'abord pour HTML/JS/CSS
+// Fetch : réseau d'abord pour TOUT sauf images
 self.addEventListener("fetch", event => {
   const url = event.request.url;
 
-  // Pour les pages et scripts → jamais de cache
-  if (url.endsWith(".html") || url.endsWith(".js") || url.endsWith(".css")) {
+  // HTML / JS / CSS → jamais de cache
+  if (
+    url.endsWith(".html") ||
+    url.endsWith(".js") ||
+    url.endsWith(".css")
+  ) {
     event.respondWith(
       fetch(event.request).catch(() => caches.match(event.request))
     );
     return;
   }
 
-  // Pour les images et manifest → cache + mise à jour
+  // Images / manifest → cache + mise à jour
   event.respondWith(
     caches.match(event.request).then(response => {
       const fetchPromise = fetch(event.request)
