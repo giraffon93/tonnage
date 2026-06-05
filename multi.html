@@ -167,6 +167,8 @@ function saveData(){
 function loadData(){
   const saved = JSON.parse(localStorage.getItem("multiData") || "[]");
 
+  document.getElementById("list").innerHTML = "";
+
   if (saved.length === 0){
     addRow("");
     addRow("");
@@ -174,14 +176,17 @@ function loadData(){
     saved.forEach(v => addRow(v));
   }
 
-  calc();
+  calc(); // force 3 décimales partout
 }
 
 function clearAll(){
   localStorage.removeItem("multiData");
   document.getElementById("list").innerHTML = "";
-  addRow(""); // garde une ligne vide
-  calc();
+
+  addRow("");
+  addRow("");
+
+  document.getElementById("total").textContent = "0.000 T";
 }
 
 window.onload = loadData;
