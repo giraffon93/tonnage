@@ -36,10 +36,36 @@ button{
   font-size:18px;
   border:none;
   border-radius:8px;
+  font-weight:bold;
+}
+
+/* Bouton ajouter */
+.btn-add {
   background:#00ff99;
   color:#000;
-  font-weight:bold;
-  margin-right:5px;
+  width:100%;
+  margin-bottom:10px;
+}
+
+/* Ligne des deux boutons */
+.actions {
+  display:flex;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+/* Sauvegarder */
+.btn-save {
+  background:#00ff99;
+  color:#000;
+  flex:1;
+}
+
+/* Effacer tout */
+.btn-clear {
+  background:#ff4d4d;
+  color:#fff;
+  flex:1;
 }
 
 #total{
@@ -66,9 +92,12 @@ a{
 
 <div id="list"></div>
 
-<button onclick="addRow()">+ Ajouter m³</button>
-<button onclick="saveData()">💾 Sauvegarder</button>
-<button onclick="clearAll()">🗑 Effacer tout</button>
+<button class="btn-add" onclick="addRow()">+ Ajouter m³</button>
+
+<div class="actions">
+  <button class="btn-save" onclick="saveData()">💾 Sauvegarder</button>
+  <button class="btn-clear" onclick="clearAll()">🗑 Effacer tout</button>
+</div>
 
 <div id="total">0.00 t</div>
 
@@ -82,7 +111,7 @@ function addRow(value = ""){
   div.innerHTML = `
     <input type="text" inputmode="decimal" placeholder="m³" value="${value}"
            oninput="calc(); saveData()">
-    <button onclick="removeRow(this)">X</button>
+    <button onclick="removeRow(this)" style="background:#00ff99; color:#000;">X</button>
   `;
 
   document.getElementById("list").appendChild(div);
