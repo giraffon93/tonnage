@@ -17,34 +17,48 @@ h1{
   text-align:center;
 }
 
-/* Ligne identique au M³ multi */
+/* Ligne optimisée iPhone */
 .row{
   display:flex;
-  gap:10px;
+  gap:8px;
   margin-bottom:10px;
   align-items:center;
+  width:100%;
 }
 
-/* Inputs identiques */
+/* Inputs compressibles */
 input{
-  flex:1;
+  flex:1 1 0;
+  min-width:0; /* 🔥 indispensable pour iPhone */
   padding:10px;
   font-size:18px;
   border-radius:8px;
   border:none;
 }
 
-/* Résultat identique à .lineWeight */
+/* Résultat tonnage */
 .lineWeight{
   flex:0 0 auto;
-  min-width:75px;
+  width:75px; /* 🔥 largeur fixe pour éviter débordement */
   text-align:right;
   color:#00ff99;
   font-size:18px;
   font-weight:bold;
 }
 
-/* Boutons identiques */
+/* Bouton X */
+.delete-btn{
+  flex:0 0 auto;
+  background:#00ff99;
+  color:#000;
+  padding:10px 12px;
+  border-radius:8px;
+  font-size:18px;
+  font-weight:bold;
+  border:none;
+}
+
+/* Boutons identiques au M³ multi */
 button{
   padding:10px 14px;
   font-size:18px;
@@ -131,10 +145,10 @@ function addRow(m2="", ep=""){
   div.className = "row";
 
   div.innerHTML = `
-    <input type="text" inputmode="decimal" placeholder="m²" class="m2" value="${m2}" oninput="calc(); saveData()">
-    <input type="text" inputmode="decimal" placeholder="Ép. (cm)" class="ep" value="${ep}" oninput="calc(); saveData()">
+    <input type="text" class="m2" placeholder="m²" value="${m2}" oninput="calc(); saveData()">
+    <input type="text" class="ep" placeholder="Ép. (cm)" value="${ep}" oninput="calc(); saveData()">
     <span class="lineWeight">0.000 T</span>
-    <button onclick="removeRow(this)" style="background:#00ff99; color:#000;">X</button>
+    <button class="delete-btn" onclick="removeRow(this)">X</button>
   `;
 
   document.getElementById("list").appendChild(div);
