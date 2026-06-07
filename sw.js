@@ -1,5 +1,5 @@
-// build 1
-const CACHE_NAME = "tonnage-m3-v1";
+// build 2
+const CACHE_NAME = "tonnage-m3-v2";
 
 self.addEventListener("install", event => {
   self.skipWaiting(); // active immédiatement la nouvelle version
