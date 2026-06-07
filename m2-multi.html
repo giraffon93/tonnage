@@ -4,79 +4,67 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calcul Multi m²</title>
+<title>M² multi</title>
 
 <style>
 body{
   background:#000;
   color:#fff;
   font-family:Arial;
-  padding:20px;
+  padding:15px;
 }
 
 h1{
   text-align:center;
-  font-size:26px;
-  margin-bottom:20px;
-}
-
-.line{
-  background:#111;
-  padding:12px;
-  border-radius:10px;
-  margin-bottom:12px;
 }
 
 .row{
   display:flex;
   gap:10px;
-  align-items:center;
+  margin-bottom:10px;
 }
 
-.row input{
+input{
   flex:1;
   padding:10px;
   font-size:18px;
   border-radius:8px;
   border:none;
-  outline:none;
 }
 
 .result{
   width:110px;
-  text-align:center;
-  font-size:20px;
   background:#222;
   padding:10px;
   border-radius:8px;
+  text-align:center;
+  font-size:18px;
 }
 
 button{
-  width:100%;
-  padding:12px;
-  background:#00ff99;
-  color:#000;
+  padding:10px 14px;
+  font-size:18px;
   border:none;
   border-radius:8px;
-  font-size:20px;
-  margin-top:10px;
+  background:#00ff99;
+  color:#000;
   font-weight:bold;
 }
 
 .delete{
   background:#ff4444;
   color:#fff;
-  margin-top:8px;
 }
 
-#totalT{
-  font-size:32px;
-  text-align:center;
+#total{
   margin-top:20px;
+  text-align:center;
+  font-size:28px;
+  color:#00ff99;
   font-weight:bold;
 }
 
-#totalKG{
+#kg{
   text-align:center;
   font-size:20px;
   opacity:0.7;
@@ -84,72 +72,105 @@ button{
 
 a{
   color:#00ff99;
+  text-decoration:none;
   display:block;
   text-align:center;
   margin-top:20px;
-  font-size:18px;
 }
 </style>
 </head>
 
 <body>
 
-<h1>Calcul Multi m²</h1>
+<h1>M² multi</h1>
 
-<div id="container"></div>
+<div id="list"></div>
 
-<button onclick="addLine()">+ Ajouter une ligne</button>
+<button onclick="addRow()">+ Ajouter une ligne</button>
+<button onclick="saveData()">💾 Sauvegarder</button>
+<button onclick="clearAll()">🗑 Effacer tout</button>
 
-<div id="totalT">0.000 T</div>
-<div id="totalKG">0 kg</div>
+<div id="total">0.000 T</div>
+<div id="kg">0 kg</div>
 
 <a href="index.html">⬅ Retour</a>
 
 <script>
-function addLine(){
+function addRow(m2="", ep=""){
   const div = document.createElement("div");
-  div.className = "line";
+  div.className = "row";
 
   div.innerHTML = `
-    <div class="row">
-      <input type="text" inputmode="decimal" placeholder="m²" class="m2">
-      <input type="text" inputmode="decimal" placeholder="Ép. (cm)" class="ep">
-      <div class="result">0.000 T</div>
-    </div>
-    <button class="delete" onclick="this.parentNode.remove(); calcTotal();">🗑 Supprimer</button>
+    <input type="text" inputmode="decimal" placeholder="m²" class="m2" value="${m2}" oninput="calc(); saveData()">
+    <input type="text" inputmode="decimal" placeholder="Ép. (cm)" class="ep" value="${ep}" oninput="calc(); saveData()">
+    <div class="result">0.000 T</div>
+    <button class="delete" onclick="removeRow(this)">X</button>
   `;
 
-  document.getElementById("container").appendChild(div);
-
-  div.querySelectorAll("input").forEach(el=>{
-    el.addEventListener("input", calcTotal);
-  });
-
-  calcTotal();
+  document.getElementById("list").appendChild(div);
+  calc();
 }
 
-function calcTotal(){
-  let totalT = 0;
+function removeRow(btn){
+  const rows = document.querySelectorAll(".row");
+  if (rows.length > 1){
+    btn.parentNode.remove();
+    calc();
+    saveData();
+  }
+}
 
-  document.querySelectorAll(".line").forEach(line=>{
-    const m2 = parseFloat(line.querySelector(".m2").value.replace(",", ".")) || 0;
-    const ep = parseFloat(line.querySelector(".ep").value.replace(",", ".")) || 0;
+function calc(){
+  let total = 0;
+
+  document.querySelectorAll(".row").forEach(row=>{
+    const m2 = parseFloat(row.querySelector(".m2").value.replace(",", ".")) || 0;
+    const ep = parseFloat(row.querySelector(".ep").value.replace(",", ".")) || 0;
 
     const volume = m2 * (ep / 100);
     const tonnes = volume * 2.7;
 
-    line.querySelector(".result").textContent = tonnes.toFixed(3) + " T";
+    row.querySelector(".result").textContent = tonnes.toFixed(3) + " T";
 
-    totalT += tonnes;
+    total += tonnes;
   });
 
-  document.getElementById("totalT").textContent = totalT.toFixed(3) + " T";
-  document.getElementById("totalKG").textContent = Math.round(totalT * 1000).toLocaleString() + " kg";
+  document.getElementById("total").textContent = total.toFixed(3) + " T";
+  document.getElementById("kg").textContent = Math.round(total * 1000).toLocaleString() + " kg";
 }
 
-window.addEventListener("load", ()=>{
-  addLine();
-});
+function saveData(){
+  const data = [];
+  document.querySelectorAll(".row").forEach(row=>{
+    data.push({
+      m2: row.querySelector(".m2").value,
+      ep: row.querySelector(".ep").value
+    });
+  });
+  localStorage.setItem("m2multi", JSON.stringify(data));
+}
+
+function loadData(){
+  const saved = JSON.parse(localStorage.getItem("m2multi") || "[]");
+
+  if (saved.length === 0){
+    addRow();
+    addRow();
+  } else {
+    saved.forEach(item => addRow(item.m2, item.ep));
+  }
+
+  calc();
+}
+
+function clearAll(){
+  localStorage.removeItem("m2multi");
+  document.getElementById("list").innerHTML = "";
+  addRow();
+  calc();
+}
+
+window.onload = loadData;
 </script>
 
 </body>
