@@ -16,22 +16,27 @@ body{
 
 h1{
   text-align:center;
+  margin-bottom:20px;
 }
 
+/* Ligne */
 .row{
   display:flex;
   gap:10px;
-  margin-bottom:10px;
+  margin-bottom:12px;
 }
 
+/* Inputs */
 input{
   flex:1;
   padding:10px;
   font-size:18px;
   border-radius:8px;
   border:none;
+  outline:none;
 }
 
+/* Résultat */
 .result{
   width:110px;
   background:#222;
@@ -41,21 +46,38 @@ input{
   font-size:18px;
 }
 
-button{
-  padding:10px 14px;
-  font-size:18px;
-  border:none;
-  border-radius:8px;
+/* Boutons */
+.action-btn{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
   background:#00ff99;
   color:#000;
+  border:none;
+  border-radius:8px;
+  font-size:20px;
   font-weight:bold;
+}
+
+.save{
+  background:#ffaa00;
+}
+
+.delete-all{
+  background:#ff4444;
+  color:#fff;
 }
 
 .delete{
   background:#ff4444;
   color:#fff;
+  border:none;
+  border-radius:8px;
+  padding:10px 14px;
+  font-size:18px;
 }
 
+/* Totaux */
 #total{
   margin-top:20px;
   text-align:center;
@@ -70,6 +92,7 @@ button{
   opacity:0.7;
 }
 
+/* Retour */
 a{
   color:#00ff99;
   text-decoration:none;
@@ -86,9 +109,9 @@ a{
 
 <div id="list"></div>
 
-<button onclick="addRow()">+ Ajouter une ligne</button>
-<button onclick="saveData()">💾 Sauvegarder</button>
-<button onclick="clearAll()">🗑 Effacer tout</button>
+<button class="action-btn" onclick="addRow()">+ Ajouter une ligne</button>
+<button class="action-btn save" onclick="saveData()">💾 Sauvegarder</button>
+<button class="action-btn delete-all" onclick="clearAll()">🗑 Effacer tout</button>
 
 <div id="total">0.000 T</div>
 <div id="kg">0 kg</div>
