@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>M² multi</title>
 
 <style>
@@ -16,68 +15,71 @@ body{
 
 h1{
   text-align:center;
-  margin-bottom:20px;
 }
 
-/* Ligne */
 .row{
   display:flex;
   gap:10px;
-  margin-bottom:12px;
+  margin-bottom:10px;
+  align-items:center;
 }
 
-/* Inputs */
 input{
   flex:1;
   padding:10px;
   font-size:18px;
   border-radius:8px;
   border:none;
-  outline:none;
 }
 
-/* Résultat */
-.result{
-  width:110px;
-  background:#222;
-  padding:10px;
-  border-radius:8px;
-  text-align:center;
+/* Résultat (équivalent lineWeight) */
+.lineWeight{
+  flex:0 0 auto;
+  min-width:75px;
+  text-align:right;
+  color:#00ff99;
   font-size:18px;
-}
-
-/* Boutons */
-.action-btn{
-  width:100%;
-  padding:12px;
-  margin-top:10px;
-  background:#00ff99;
-  color:#000;
-  border:none;
-  border-radius:8px;
-  font-size:20px;
   font-weight:bold;
 }
 
-.save{
-  background:#ffaa00;
-}
-
-.delete-all{
-  background:#ff4444;
-  color:#fff;
-}
-
-.delete{
-  background:#ff4444;
-  color:#fff;
-  border:none;
-  border-radius:8px;
+/* Boutons identiques au M³ multi */
+button{
   padding:10px 14px;
   font-size:18px;
+  border:none;
+  border-radius:8px;
+  font-weight:bold;
 }
 
-/* Totaux */
+/* Ajouter */
+.btn-add {
+  background:#00ff99;
+  color:#000;
+  width:100%;
+  margin-bottom:10px;
+}
+
+/* Ligne des deux boutons */
+.actions {
+  display:flex;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+/* Sauvegarder */
+.btn-save {
+  background:#00ff99;
+  color:#000;
+  flex:1;
+}
+
+/* Effacer tout */
+.btn-clear {
+  background:#ff4d4d;
+  color:#fff;
+  flex:1;
+}
+
 #total{
   margin-top:20px;
   text-align:center;
@@ -92,7 +94,6 @@ input{
   opacity:0.7;
 }
 
-/* Retour */
 a{
   color:#00ff99;
   text-decoration:none;
@@ -109,9 +110,12 @@ a{
 
 <div id="list"></div>
 
-<button class="action-btn" onclick="addRow()">+ Ajouter une ligne</button>
-<button class="action-btn save" onclick="saveData()">💾 Sauvegarder</button>
-<button class="action-btn delete-all" onclick="clearAll()">🗑 Effacer tout</button>
+<button class="btn-add" onclick="addRow()">+ Ajouter m²</button>
+
+<div class="actions">
+  <button class="btn-save" onclick="saveData()">💾 Sauvegarder</button>
+  <button class="btn-clear" onclick="clearAll()">🗑 Effacer tout</button>
+</div>
 
 <div id="total">0.000 T</div>
 <div id="kg">0 kg</div>
@@ -126,8 +130,8 @@ function addRow(m2="", ep=""){
   div.innerHTML = `
     <input type="text" inputmode="decimal" placeholder="m²" class="m2" value="${m2}" oninput="calc(); saveData()">
     <input type="text" inputmode="decimal" placeholder="Ép. (cm)" class="ep" value="${ep}" oninput="calc(); saveData()">
-    <div class="result">0.000 T</div>
-    <button class="delete" onclick="removeRow(this)">X</button>
+    <span class="lineWeight">0.000 T</span>
+    <button onclick="removeRow(this)" style="background:#00ff99; color:#000;">X</button>
   `;
 
   document.getElementById("list").appendChild(div);
@@ -153,7 +157,7 @@ function calc(){
     const volume = m2 * (ep / 100);
     const tonnes = volume * 2.7;
 
-    row.querySelector(".result").textContent = tonnes.toFixed(3) + " T";
+    row.querySelector(".lineWeight").textContent = tonnes.toFixed(3) + " T";
 
     total += tonnes;
   });
@@ -176,6 +180,8 @@ function saveData(){
 function loadData(){
   const saved = JSON.parse(localStorage.getItem("m2multi") || "[]");
 
+  document.getElementById("list").innerHTML = "";
+
   if (saved.length === 0){
     addRow();
     addRow();
@@ -189,6 +195,7 @@ function loadData(){
 function clearAll(){
   localStorage.removeItem("m2multi");
   document.getElementById("list").innerHTML = "";
+  addRow();
   addRow();
   calc();
 }
