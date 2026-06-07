@@ -1,5 +1,5 @@
-// build 8
-const CACHE_NAME = "tonnage-m3-v8";
+// build 9
+const CACHE_NAME = "tonnage-m3-v9";
 
 self.addEventListener("install", event => {
   self.skipWaiting(); // active immédiatement la nouvelle version
