@@ -145,8 +145,8 @@ function addRow(m2="", ep=""){
   div.className = "row";
 
   div.innerHTML = `
-    <input type="text" class="m2" placeholder="m²" value="${m2}" oninput="calc(); saveData()">
-    <input type="text" class="ep" placeholder="Ép. (cm)" value="${ep}" oninput="calc(); saveData()">
+    <input type="text" class="m2" placeholder="m²" value="${m2}" inputmode="decimal" oninput="calc(); saveData()">
+    <input type="text" class="ep" placeholder="Ép. (cm)" value="${ep}" inputmode="decimal" oninput="calc(); saveData()">
     <span class="lineWeight">0.000 T</span>
     <button class="delete-btn" onclick="removeRow(this)">X</button>
   `;
